@@ -12,16 +12,19 @@ class Role(models.Model):
         verbose_name = "Rol"
         verbose_name_plural = "Roles"
 
-
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = slugify(self.name)
             cont = 1
             while Role.objects.filter(slug=slug).exists():
-                sluf = f"{slug}-{cont}"
+                slug = f"{slug}-{cont}"
                 cont += 1
 
+            self.slug = slug
 
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
