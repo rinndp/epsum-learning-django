@@ -9,7 +9,6 @@ class CustomUserAdmin(admin.ModelAdmin):
 
     list_editable = ("is_superuser", "is_active",) #Editar campos directamente en el panel
 
-    readonly_fields = ("email", "password",)
     ordering = ("email",)
 
     fieldsets = (
