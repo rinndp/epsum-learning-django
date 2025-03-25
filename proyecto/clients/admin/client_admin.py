@@ -3,9 +3,9 @@ from clients.models import ClientModel
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'company_name', 'contact_name', 'email', 'status')
+    list_display = ('contact_name', 'company_name', 'id', 'email', 'status')
     search_fields = ("company_name", "contact_name", "email")
-    list_filter = ('status',)
+    list_filter = ('status', 'company_name',)
 
     list_editable = ('status',)
 
@@ -13,10 +13,9 @@ class ClientAdmin(admin.ModelAdmin):
 
     readonly_fields = ("slug",)
 
-
     fieldsets = (
         ("Información del cliente", {
-            "fields": ("company_name", "contact_name", "email", 'slug', "status")
+            "fields": ("company_name", "contact_name", "email", 'slug', "status", "meetings")
         }),
     )
 

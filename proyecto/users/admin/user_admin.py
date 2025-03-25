@@ -3,7 +3,7 @@ from users.models import CustomUser
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ("email", "password", "is_active", "is_superuser")
+    list_display = ("email", "password", "id", "is_active", "is_superuser")
     list_filter = ("is_superuser", "is_active",)
     search_fields = ("email",)
 

@@ -2,6 +2,8 @@ import secrets
 
 from django.db import models
 
+from clients.models.meeting_model import MeetingModel
+
 
 class ClientStatusModel (models.Model):
     name = models.CharField(unique=True, verbose_name="Nombre del estado")
@@ -16,7 +18,7 @@ class ClientStatusModel (models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             prov = secrets.token_urlsafe(16)
-            while ClientStatusModel.objects.filter(slug=prov).exists:
+            while ClientStatusModel.objects.filter(slug=prov).exists():
                 prov = secrets.token_urlsafe(16)
             self.slug = prov
         super().save(*args, **kwargs)
@@ -34,6 +36,8 @@ class ClientModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creacion')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de actualizacion')
 
+    meetings = models.ForeignKey(MeetingModel, on_delete=models.RESTRICT, null=True, blank=True, related_name="clients", verbose_name="Reuniones")
+
     class Meta:
         db_table = 'clients'
         verbose_name = 'Cliente'
@@ -42,7 +46,7 @@ class ClientModel(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             prov = secrets.token_urlsafe(16)
-            while ClientModel.objects.filter(slug=prov).exists:
+            while ClientModel.objects.filter(slug=prov).exists():
                 prov = secrets.token_urlsafe(16)
             self.slug = prov
         super().save(*args, **kwargs)

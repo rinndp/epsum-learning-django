@@ -6,6 +6,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_IN
 from rest_framework.views import APIView
 
 from users.models import Role, CustomUser
+from users.serializers import UserSerializer
 
 
 class CheckStatusView(APIView):
@@ -17,8 +18,9 @@ class CheckStatusView(APIView):
 class AllUsersView(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
-        users = CustomUser.objects.values("id", "email").all()
-        return Response ({"users": users}, status=HTTP_200_OK)
+        users = CustomUser.objects.all()
+        users_serialized = UserSerializer(users, many=True)
+        return Response (users_serialized.data, status=HTTP_200_OK)
 
 class GetUserByEmailView(APIView):
     permission_classes = [AllowAny]
